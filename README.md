@@ -32,6 +32,7 @@ Traga tudo pronto antes da aula. A criação do tenant leva até 30 minutos e é
 | 6 | MFA com Conditional Access | 15 | [docs/06-mfa-conditional-access.md](docs/06-mfa-conditional-access.md) |
 | 7 | Usuários, logs e encerramento | 10 | [docs/07-usuarios-logs-encerramento.md](docs/07-usuarios-logs-encerramento.md) |
 | 8 | Opcional: deploy do app em Azure App Service via GitHub Actions | 15 | [docs/08-opcional-deploy-app-service.md](docs/08-opcional-deploy-app-service.md) |
+| 9 | Opcional: provisionar o ambiente com GitHub Actions e Bicep (workflows prontos, secrets por repositório) | 15 + 5 | [docs/09-opcional-provisionamento-actions.md](docs/09-opcional-provisionamento-actions.md) |
 | B | Bônus: Google como provedor de identidade | 20–25 | [docs/bonus-google.md](docs/bonus-google.md) |
 | B | Bônus: Facebook como provedor de identidade | 30–45 | [docs/bonus-facebook.md](docs/bonus-facebook.md) |
 
@@ -66,9 +67,10 @@ o botão **Entrar**, página **Meu perfil** protegida que lista as claims do ID 
 docs/         guia do aluno, um arquivo por módulo, mais troubleshooting
 instrutor/    roteiro minuto a minuto, checklist pré-aula, riscos e plano B
 src/          LabExternalId.Web (ASP.NET Core 10 MVC)
-assets/       imagens de branding (placeholders TFTEC) e onde usá-las
-tools/        script que gera as imagens de branding
-.github/      workflow de CI (build e artefato); o deploy usa o workflow gerado pelo portal do Azure
+assets/       imagens de branding TFTEC e onde usá-las
+tools/        scripts que geram as imagens de branding
+infra/        Bicep do ambiente (App Service Plan B1 Windows + Web App .NET 10) e template vazio de limpeza
+.github/      workflows: CI (build e artefato), Provisionar ambiente e Desprovisionar ambiente (módulo 9)
 ```
 
 ## Fora do escopo, de propósito

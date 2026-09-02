@@ -9,6 +9,9 @@ gerado inteiramente pelo portal do Azure, e fazer login nele a partir do seu ten
 
 15 minutos (cerca de 5 deles esperando o primeiro run do Actions).
 
+Alternativa: o módulo 9 (`docs/09-opcional-provisionamento-actions.md`) cria o mesmo ambiente com um
+workflow pronto e Bicep, sem passar pelo Deployment Center. Escolha um dos dois caminhos.
+
 ## Pré-requisitos
 
 - Módulos 3 e 4 concluídos: fluxo `SignUpSignIn` e app registration `LabExternalId-Web` funcionando em `localhost`.

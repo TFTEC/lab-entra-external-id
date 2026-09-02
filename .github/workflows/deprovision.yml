@@ -1,0 +1,64 @@
+name: Desprovisionar ambiente
+
+# Remove o App Service e o plano B1 do resource group, preservando o grupo e as permissões
+# (implantação em modo Complete de um template vazio). Exige digitar o nome do resource group.
+
+on:
+  workflow_dispatch:
+    inputs:
+      resource_group:
+        description: "Resource group a esvaziar. Vazio = variável AZURE_RESOURCE_GROUP ou rg-lab-externalid"
+        required: false
+        default: ""
+      confirm:
+        description: "Digite o nome do resource group para confirmar"
+        required: true
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: lab-environment
+  cancel-in-progress: false
+
+jobs:
+  deprovision:
+    name: Esvaziar resource group
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Conferir confirmação
+        id: params
+        shell: bash
+        run: |
+          rg="${{ inputs.resource_group }}"; rg="${rg:-${{ vars.AZURE_RESOURCE_GROUP }}}"; rg="${rg:-rg-lab-externalid}"
+          if [ "${{ inputs.confirm }}" != "$rg" ]; then
+            echo "::error::Confirmação não bate: esperado '$rg', recebido '${{ inputs.confirm }}'."
+            exit 1
+          fi
+          echo "resource_group=$rg" >> "$GITHUB_OUTPUT"
+
+      - name: Login no Azure (OIDC)
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Listar o que será removido
+        shell: bash
+        run: az resource list --resource-group "${{ steps.params.outputs.resource_group }}" --query "[].{nome:name, tipo:type}" --output table
+
+      - name: Remover recursos (modo Complete)
+        shell: bash
+        run: |
+          az deployment group create \
+            --name "limpeza-$(date -u +%Y%m%d%H%M%S)" \
+            --resource-group "${{ steps.params.outputs.resource_group }}" \
+            --template-file infra/empty.bicep \
+            --mode Complete \
+            --output none
+          echo "Resource group '${{ steps.params.outputs.resource_group }}' esvaziado." >> "$GITHUB_STEP_SUMMARY"

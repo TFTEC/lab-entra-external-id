@@ -1,0 +1,168 @@
+name: Provisionar ambiente
+
+# Cria (ou atualiza) o App Service do laboratório e publica o LabExternalId.Web nele.
+# Uso: aba Actions > Provisionar ambiente > Run workflow. Setup único em instrutor/provisionamento-actions.md.
+#
+# Secrets do repositório:
+#   AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID  -> login OIDC (credencial federada, sem senha)
+#   AZUREAD_CLIENT_SECRET (opcional)                          -> client secret do app registration LabExternalId-Web
+# Variáveis do repositório (opcionais, sobrescritas pelos inputs):
+#   AZURE_RESOURCE_GROUP, WEBAPP_NAME, AZUREAD_AUTHORITY, AZUREAD_CLIENT_ID
+
+on:
+  workflow_dispatch:
+    inputs:
+      web_app_name:
+        description: "Nome do Web App (único). Vazio = variável WEBAPP_NAME ou lab-externalid-tftec"
+        required: false
+        default: ""
+      resource_group:
+        description: "Resource group já existente. Vazio = variável AZURE_RESOURCE_GROUP ou rg-lab-externalid"
+        required: false
+        default: ""
+      authority:
+        description: "https://<subdominio>.ciamlogin.com/ (vazio = variável AZUREAD_AUTHORITY ou placeholder)"
+        required: false
+        default: ""
+      client_id:
+        description: "Client ID do app registration (vazio = variável AZUREAD_CLIENT_ID ou placeholder)"
+        required: false
+        default: ""
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: lab-environment
+  cancel-in-progress: false
+
+env:
+  DOTNET_NOLOGO: "1"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+
+jobs:
+  infra:
+    name: Infraestrutura (Bicep)
+    runs-on: ubuntu-latest
+    outputs:
+      web_app_name: ${{ steps.params.outputs.web_app_name }}
+      resource_group: ${{ steps.params.outputs.resource_group }}
+      host: ${{ steps.deploy.outputs.host }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Resolver parâmetros
+        id: params
+        shell: bash
+        run: |
+          rg="${{ inputs.resource_group }}"; rg="${rg:-${{ vars.AZURE_RESOURCE_GROUP }}}"; rg="${rg:-rg-lab-externalid}"
+          app="${{ inputs.web_app_name }}"; app="${app:-${{ vars.WEBAPP_NAME }}}"; app="${app:-lab-externalid-tftec}"
+          auth="${{ inputs.authority }}"; auth="${auth:-${{ vars.AZUREAD_AUTHORITY }}}"; auth="${auth:-https://SEU-SUBDOMINIO.ciamlogin.com/}"
+          cid="${{ inputs.client_id }}"; cid="${cid:-${{ vars.AZUREAD_CLIENT_ID }}}"; cid="${cid:-SEU-CLIENT-ID}"
+          echo "resource_group=$rg" >> "$GITHUB_OUTPUT"
+          echo "web_app_name=$app" >> "$GITHUB_OUTPUT"
+          echo "authority=$auth" >> "$GITHUB_OUTPUT"
+          echo "client_id=$cid" >> "$GITHUB_OUTPUT"
+          echo "Resource group: $rg | Web App: $app | Authority: $auth | ClientId: $cid"
+
+      - name: Login no Azure (OIDC)
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Validar template
+        shell: bash
+        run: |
+          az deployment group validate \
+            --resource-group "${{ steps.params.outputs.resource_group }}" \
+            --template-file infra/main.bicep \
+            --parameters webAppName="${{ steps.params.outputs.web_app_name }}" \
+                         authority="${{ steps.params.outputs.authority }}" \
+                         clientId="${{ steps.params.outputs.client_id }}" \
+                         clientSecret="${{ secrets.AZUREAD_CLIENT_SECRET }}" \
+            --output none
+
+      - name: Implantar Bicep
+        id: deploy
+        shell: bash
+        run: |
+          out=$(az deployment group create \
+            --name "lab-$(date -u +%Y%m%d%H%M%S)" \
+            --resource-group "${{ steps.params.outputs.resource_group }}" \
+            --template-file infra/main.bicep \
+            --parameters webAppName="${{ steps.params.outputs.web_app_name }}" \
+                         authority="${{ steps.params.outputs.authority }}" \
+                         clientId="${{ steps.params.outputs.client_id }}" \
+                         clientSecret="${{ secrets.AZUREAD_CLIENT_SECRET }}" \
+            --query properties.outputs --output json)
+          host=$(echo "$out" | jq -r '.defaultHostName.value')
+          echo "host=$host" >> "$GITHUB_OUTPUT"
+          echo "Web App: https://$host"
+
+  deploy:
+    name: Publicar o app
+    needs: infra
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Instalar .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Publish
+        run: dotnet publish src/LabExternalId.Web/LabExternalId.Web.csproj -c Release -o "${{ github.workspace }}/publish"
+
+      - name: Login no Azure (OIDC)
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy no App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ needs.infra.outputs.web_app_name }}
+          resource-group-name: ${{ needs.infra.outputs.resource_group }}
+          package: ${{ github.workspace }}/publish
+
+      - name: Verificar resposta
+        shell: bash
+        run: |
+          url="https://${{ needs.infra.outputs.host }}/"
+          for i in $(seq 1 12); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$url" || true)
+            echo "tentativa $i: HTTP $code"
+            [ "$code" = "200" ] && exit 0
+            sleep 10
+          done
+          echo "::warning::O app ainda não respondeu 200 em $url; confira Log stream no portal."
+
+      - name: Resumo
+        shell: bash
+        run: |
+          host="${{ needs.infra.outputs.host }}"
+          {
+            echo "## Ambiente provisionado"
+            echo
+            echo "| Item | Valor |"
+            echo "|------|-------|"
+            echo "| App | https://$host/ |"
+            echo "| Resource group | ${{ needs.infra.outputs.resource_group }} |"
+            echo "| Web App | ${{ needs.infra.outputs.web_app_name }} |"
+            echo
+            echo "### Registrar no app registration LabExternalId-Web (Authentication)"
+            echo
+            echo "- Redirect URI: \`https://$host/signin-oidc\`"
+            echo "- Redirect URI: \`https://$host/signout-callback-oidc\`"
+            echo "- Front-channel logout URL: \`https://$host/signout-oidc\`"
+            echo
+            echo "Para remover tudo: workflow **Desprovisionar ambiente**."
+          } >> "$GITHUB_STEP_SUMMARY"

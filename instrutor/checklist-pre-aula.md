@@ -36,7 +36,8 @@ instrutor no ar (plano B dos alunos) e o repositório pronto para a turma. Marqu
 ## 4. App Service do instrutor (demo e plano B)
 
 - [ ] Criar o app registration `LabExternalId-Web` no tenant do instrutor (já feito na seção 2) e anotar Client ID e um client secret dedicado ao App Service.
-- [ ] `portal.azure.com > App Services > Create > Web App`: Publish **Code**, Runtime **.NET 10 (LTS)** (confirmar que aparece no dropdown), OS **Windows**, região próxima, plano **Basic B1**.
+- [ ] **Caminho rápido (recomendado para o instrutor):** fazer o setup único de `docs/09-opcional-provisionamento-actions.md` (resource group, identidade do GitHub com credencial federada, Contributor no grupo, secrets no repositório da TFTEC) e rodar **Actions > Provisionar ambiente**. Ele cria o B1 Windows, publica o app e imprime os redirect URIs; pule para o item dos redirect URIs abaixo. Ao final da aula, **Actions > Desprovisionar ambiente**.
+- [ ] **Caminho pelo portal (o mesmo do aluno no M8):** `portal.azure.com > App Services > Create > Web App`: Publish **Code**, Runtime **.NET 10 (LTS)** (confirmar que aparece no dropdown), OS **Windows**, região próxima, plano **Basic B1**.
 - [ ] Copiar o **Default domain** do Overview (tem hash único, ex.: `nome-abc123.brazilsouth-01.azurewebsites.net`).
 - [ ] `Deployment Center > Settings`: Source **GitHub**, autorizar, Organization **TFTEC**, Repository `lab-entra-external-id`, Branch `main`, Authentication type **User-assigned identity**, Save. Confirmar que o workflow foi commitado em `.github/workflows/` e rodou verde (3 a 6 min).
 - [ ] `Settings > Environment variables > App settings`: `AzureAd__Authority` = `https://<subdominio>.ciamlogin.com/`, `AzureAd__ClientId`, `AzureAd__ClientSecret`. Apply e reiniciar.
