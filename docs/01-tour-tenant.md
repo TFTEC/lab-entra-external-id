@@ -20,17 +20,19 @@ instrutor pelo app publicado dele (plano B) até o seu tenant ficar pronto.
 3. Percorra os painéis abaixo só para localizar. Se algum não estiver no lugar indicado, use a caixa
    **Search** no topo do portal com o nome do painel.
 
-| Painel | Caminho | Usado no módulo |
-|--------|---------|-----------------|
-| Usuários (clientes e administradores) | `Entra ID > Users` | 7 |
-| App registrations | `Entra ID > App registrations` | 4 |
-| Fluxos de usuário | `Entra ID > External Identities > User flows` | 3 |
-| Provedores de identidade | `Entra ID > External Identities > All identity providers` | bônus |
-| Atributos customizados | `Entra ID > External Identities > Overview > Custom user attributes` | 3 |
-| Company Branding | `Entra ID > Custom Branding` (busque "Company branding" se não achar) | 2 |
-| Métodos de autenticação | `Entra ID > Authentication methods > Policies` | 5 |
-| Conditional Access | `Entra ID > Conditional Access > Policies` | 6 |
-| Logs | `Entra ID > Monitoring & health > Sign-in logs / Audit logs / Sign-ups` | 7 |
+| Painel | Caminho (portal em inglês) | Rótulo no portal em português | Usado no módulo |
+|--------|----------------------------|-------------------------------|-----------------|
+| Usuários (clientes e administradores) | `Entra ID > Users` | Usuários | 7 |
+| App registrations | `Entra ID > App registrations` | Registros de aplicativo | 4 |
+| Fluxos de usuário | `Entra ID > External Identities > User flows` | Identidades Externas | 3 |
+| Provedores de identidade | `Entra ID > External Identities > All identity providers` | Identidades Externas | bônus |
+| Atributos customizados | `Entra ID > External Identities > Custom user attributes` (seção Self-service sign up) | Identidades Externas > Atributos de usuário personalizados | 3 |
+| Company Branding | `Entra ID > Custom Branding` (busque "Company branding" se não achar) | Identidade visual personalizada | 2 |
+| Métodos de autenticação | `Entra ID > Authentication methods > Policies` | Métodos de autenticação | 5 |
+| Conditional Access | `Entra ID > Conditional Access > Policies` | Acesso Condicional | 6 |
+| Logs | `Entra ID > Monitoring & health > Sign-in logs / Audit logs / Sign-ups` | Monitoramento e integridade | 7 |
+
+Todos são filhos diretos de **Entra ID** no menu lateral (verificado no portal em setembro de 2026).
 
 4. Repare no que **não** existe aqui em comparação com o tenant corporativo: nenhuma licença Microsoft 365,
    nenhum Microsoft 365 admin center para este diretório, nenhum Identity Protection. O tenant externo é um

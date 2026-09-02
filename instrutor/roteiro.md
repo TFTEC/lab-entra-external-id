@@ -115,7 +115,7 @@ Tenha o `instrutor/riscos-plano-b.md` aberto em outra aba durante a aula inteira
 
 **Variação sem secret (últimos 5 min):**
 1. Apague o valor de `ClientSecret` no `appsettings.json`, F5, clique Entrar → **AADSTS700054** ("response_type 'id_token' is not enabled").
-2. `App registrations > LabExternalId-Web > Authentication > Implicit grant and hybrid flows > ID tokens` → Save.
+2. `App registrations > LabExternalId-Web > Authentication (Preview) > aba Settings > Implicit grant and hybrid flows > ID tokens` → Save.
 3. F5 de novo → funciona. A faixa na página inicial muda de "Authorization code + PKCE" para "ID token (fluxo implícito)".
 4. Fale o trade-off: menos passos, mas fluxo legado e não é o caminho documentado; o app decide sozinho pela presença do secret.
 

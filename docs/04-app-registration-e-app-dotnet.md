@@ -28,12 +28,13 @@ app funcionando sem client secret.
 
 ### B. Redirect URIs, logout e segredo
 
-6. Menu do app: **Authentication**.
-   - Em **Web > Redirect URIs**, clique em **Add URI** e informe `https://localhost:7100/signout-callback-oidc`.
-     É para onde o tenant devolve o navegador depois do logout; sem ela, a página "Você saiu" não aparece.
-   - **Front-channel logout URL**: `https://localhost:7100/signout-oidc`.
-   - Em **Implicit grant and hybrid flows**, deixe **ID tokens** desmarcado por enquanto.
-   - **Save**.
+6. Menu do app: **Authentication (Preview)**. Desde 2026 o blade é dividido em abas; se você vir o layout
+   antigo (tudo em uma página), os campos são os mesmos.
+   - Aba **Redirect URI configuration**: clique em **+ Add a redirect URI**, plataforma **Web**, valor
+     `https://localhost:7100/signout-callback-oidc`, confirme. A lista passa a mostrar as duas URIs.
+     Essa segunda é para onde o tenant devolve o navegador depois do logout; sem ela, a página "Você saiu" não aparece.
+   - Aba **Settings**: em **Front-channel logout URL**, informe `https://localhost:7100/signout-oidc`.
+     Em **Implicit grant and hybrid flows**, deixe **ID tokens** desmarcado por enquanto. **Save**.
 7. Menu do app: **Certificates & secrets > Client secrets > + New client secret**.
    - **Description**: `lab`
    - **Expires**: `90 days`
@@ -92,8 +93,8 @@ app funcionando sem client secret.
 20. Pare o app (Shift+F5). Em `appsettings.json`, deixe `"ClientSecret": ""`. Salve e pressione F5.
 21. A página inicial agora mostra **ID token (fluxo implícito, sem client secret)**. Clique em **Entrar**.
     O tenant responde com o erro **AADSTS700054**: `response_type 'id_token' is not enabled for the application`.
-22. No portal: **App registrations > LabExternalId-Web > Authentication > Implicit grant and hybrid flows**,
-    marque **ID tokens (used for implicit and hybrid flows)** e **Save**.
+22. No portal: **App registrations > LabExternalId-Web > Authentication (Preview) > aba Settings > Implicit
+    grant and hybrid flows**, marque **ID tokens (used for implicit and hybrid flows)** e **Save**.
 23. Volte ao app, clique em **Entrar** de novo. Funciona. **Meu perfil** mostra as mesmas claims. A diferença
     está no que o app não recebeu: sem código de autorização, sem refresh token, sem como chamar APIs depois.
 24. Restaure para os próximos módulos: coloque o secret de volta em `appsettings.json` e salve. Pode deixar
@@ -101,7 +102,8 @@ app funcionando sem client secret.
 
 ## Checkpoint
 
-- `App registrations > LabExternalId-Web > Authentication` tem dois Redirect URIs e o Front-channel logout URL.
+- `App registrations > LabExternalId-Web > Authentication (Preview)` tem dois Redirect URIs na primeira aba e o
+  Front-channel logout URL na aba Settings.
 - `User flows > SignUpSignIn > Applications` lista `LabExternalId-Web`.
 - No app: cadastro concluído, **Meu perfil** com `oid`, `preferred_username`, `name`; **Sair** leva a "Você saiu".
 - Você viu o AADSTS700054 e o corrigiu marcando **ID tokens**.

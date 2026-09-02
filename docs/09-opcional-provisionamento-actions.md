@@ -106,10 +106,10 @@ Feito no **tenant corporativo** onde está a assinatura, não no tenant externo 
 16. **Provisionar ambiente > Run workflow**, branch `main`. Preencha os campos ou deixe em branco para usar as
     variáveis. **Run workflow**.
 17. Ao terminar (4 a 6 min), abra o run e leia o **Summary**: URL do app e os três valores a registrar.
-18. No tenant externo: **Entra ID > App registrations > LabExternalId-Web > Authentication**:
-    - **Add URI** `https://<host>/signin-oidc`
-    - **Add URI** `https://<host>/signout-callback-oidc`
-    - **Front-channel logout URL**: `https://<host>/signout-oidc`
+18. No tenant externo: **Entra ID > App registrations > LabExternalId-Web > Authentication (Preview)**:
+    - Aba **Redirect URI configuration > + Add a redirect URI** (Web): `https://<host>/signin-oidc`
+    - Idem: `https://<host>/signout-callback-oidc`
+    - Aba **Settings > Front-channel logout URL**: `https://<host>/signout-oidc`
     - **Save**. O `<host>` tem um sufixo único gerado pelo Azure; copie do Summary.
 19. Abra a URL do app, **Entrar**, entre como cliente, **Meu perfil**, **Sair**.
 

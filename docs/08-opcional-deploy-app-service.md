@@ -85,12 +85,15 @@ workflow pronto e Bicep, sem passar pelo Deployment Center. Escolha um dos dois 
 
 ### Parte E — Redirect URIs no app registration
 
-21. No Entra admin center do tenant externo, abra **Entra ID > App registrations > LabExternalId-Web > Authentication**.
-22. Em **Web > Redirect URIs**, clique em **Add URI** e adicione, substituindo `<dominio>` pelo valor copiado no passo 10:
+21. No Entra admin center do tenant externo, abra **Entra ID > App registrations > LabExternalId-Web >
+    Authentication (Preview)**.
+22. Na aba **Redirect URI configuration**, clique em **+ Add a redirect URI** (plataforma **Web**) e adicione,
+    substituindo `<dominio>` pelo valor copiado no passo 10:
     - `https://<dominio>/signin-oidc`
     - `https://<dominio>/signout-callback-oidc`
-23. Em **Front-channel logout URL**, o campo aceita um único valor. Troque-o por `https://<dominio>/signout-oidc`
-    (o logout do `localhost` deixa de ser notificado, mas continua funcionando pelo redirect).
+23. Na aba **Settings**, em **Front-channel logout URL**, o campo aceita um único valor. Troque-o por
+    `https://<dominio>/signout-oidc` (o logout do `localhost` deixa de ser notificado, mas continua funcionando
+    pelo redirect).
 24. Clique em **Save**.
 
 ### Parte F — Teste

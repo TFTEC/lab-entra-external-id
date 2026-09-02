@@ -17,7 +17,9 @@ e-mail com senha, nome de exibição e empresa obrigatórios.
 
 ### A. Atributo customizado
 
-1. **Entra ID > External Identities > Overview**. Abra a aba **Custom user attributes**.
+1. **Entra ID > External Identities**. No menu do painel, seção **Self-service sign up**, clique em
+   **Custom user attributes** (em português: "Atributos de usuário personalizados", sob "Inscrição para
+   autoatendimento").
 2. Clique em **+ Add**.
    - **Name**: `Empresa`
    - **Data type**: `String`
@@ -64,8 +66,12 @@ Token configuration > Add optional claim > ID > Empresa`. Não faz parte do temp
 
 ## Se der errado
 
+- **"Não foi possível salvar o atributo... se você acabou de criar esse diretório, aguarde alguns minutos"**:
+  o tenant é novo e o app interno que guarda atributos customizados ainda está sendo provisionado. Observado
+  20 minutos após a criação. Aguarde alguns minutos e tente de novo; é mais um motivo para criar o tenant
+  antes da aula.
 - **`Empresa` não aparece em User attributes**: você criou o atributo em outro tenant, ou não clicou em
-  **Show more**. Confira em `External Identities > Overview > Custom user attributes`.
+  **Show more**. Confira em `External Identities > Custom user attributes`.
 - **Não consegue desmarcar Email one-time passcode / marcar Email with password**: a escolha é feita na
   criação. Apague o fluxo e crie de novo; ainda não há app associado.
 - **Nome do fluxo recusado**: use só letras e números, sem espaços.

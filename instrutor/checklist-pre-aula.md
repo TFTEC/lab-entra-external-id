@@ -41,7 +41,7 @@ instrutor no ar (plano B dos alunos) e o repositório pronto para a turma. Marqu
 - [ ] Copiar o **Default domain** do Overview (tem hash único, ex.: `nome-abc123.brazilsouth-01.azurewebsites.net`).
 - [ ] `Deployment Center > Settings`: Source **GitHub**, autorizar, Organization **TFTEC**, Repository `lab-entra-external-id`, Branch `main`, Authentication type **User-assigned identity**, Save. Confirmar que o workflow foi commitado em `.github/workflows/` e rodou verde (3 a 6 min).
 - [ ] `Settings > Environment variables > App settings`: `AzureAd__Authority` = `https://<subdominio>.ciamlogin.com/`, `AzureAd__ClientId`, `AzureAd__ClientSecret`. Apply e reiniciar.
-- [ ] No app registration do instrutor, `Authentication > Web > Redirect URIs`: adicionar `https://<default-domain>/signin-oidc` e `https://<default-domain>/signout-callback-oidc`; Front-channel logout URL pode continuar o de localhost ou ganhar o do App Service.
+- [ ] No app registration do instrutor, `Authentication (Preview) > Redirect URI configuration > + Add a redirect URI`: adicionar `https://<default-domain>/signin-oidc` e `https://<default-domain>/signout-callback-oidc`; na aba Settings, o Front-channel logout URL pode continuar o de localhost ou ganhar o do App Service.
 - [ ] Abrir o app publicado, cadastrar um cliente, entrar, ver `/Perfil`, sair. Este endereço é o **plano B** para aluno sem tenant ou sem Visual Studio 2026: guardar a URL para colar no chat da aula.
 - [ ] Anotar o custo: B1 Windows é cobrado por hora. **Apagar o resource group depois da aula.**
 

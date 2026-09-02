@@ -26,7 +26,9 @@ O link na página de login é controlado pelo Company Branding, e já ficou marc
 ### A. Habilitar o código por e-mail como método de autenticação
 
 1. **Entra ID > Authentication methods > Policies**.
-2. Na lista de métodos, clique em **Email OTP**.
+2. Na lista de métodos, localize **Email OTP**. Em tenant externo criado em 2026 ele já pode aparecer com
+   **Target = All users** e **Enabled = Yes** (foi assim no tenant de validação); nesse caso só confira e siga
+   para o passo 6. Se estiver **No**, clique em **Email OTP**.
 3. Aba **Enable and Target**: mude **Enable** para **On**.
 4. Em **Include**, mantenha **All users** (ou clique em **Add target** e escolha **All users**).
 5. **Save**.
