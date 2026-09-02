@@ -12,8 +12,8 @@ param subdominio string
 @description('Nome de exibição do tenant.')
 param displayName string = 'Lab External ID - TFTEC'
 
-@description('País/região do tenant (imutável).')
-param countryCode string = 'BR'
+@description('País/região do tenant (imutável). A API ARM recusou BR em 2026-09-02; use US (o portal aceita Brasil).')
+param countryCode string = 'US'
 
 @description('Localização dos dados. Valores aceitos pelo ARM: United States, Europe, Asia Pacific, Australia.')
 @allowed([
@@ -25,7 +25,8 @@ param countryCode string = 'BR'
 param dataLocation string = 'United States'
 
 resource tenant 'Microsoft.AzureActiveDirectory/ciamDirectories@2023-05-17-preview' = {
-  name: subdominio // o ARM completa para <subdominio>.onmicrosoft.com; o nome do recurso tem no máximo 26 caracteres
+  #disable-next-line BCP335
+  name: '${subdominio}.onmicrosoft.com' // o sufixo é obrigatório; o aviso de tamanho do Bicep pode ser ignorado
   location: dataLocation
   sku: {
     name: 'Base' // único SKU aceito pelo provider (preflight recusa 'Standard')
