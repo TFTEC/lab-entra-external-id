@@ -1,0 +1,43 @@
+name: CI
+
+# Compila e publica o app a cada push. O artefato ZIP serve de reserva para quem
+# não conseguir compilar localmente. O deploy em App Service NÃO é feito aqui:
+# ele usa o workflow gerado pelo Deployment Center do portal do Azure (módulo 8).
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build e publish (.NET 10)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore src/LabExternalId.Web/LabExternalId.Web.csproj
+
+      - name: Build
+        run: dotnet build src/LabExternalId.Web/LabExternalId.Web.csproj -c Release --no-restore
+
+      - name: Publish
+        run: dotnet publish src/LabExternalId.Web/LabExternalId.Web.csproj -c Release --no-build -o "${{ github.workspace }}/publish"
+
+      - name: Artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: LabExternalId.Web
+          path: ${{ github.workspace }}/publish
+          if-no-files-found: error
