@@ -61,7 +61,10 @@ app funcionando sem client secret.
     - `"Authority": "https://<subdominio>.ciamlogin.com/"` (com a barra final)
     - `"ClientId": "<Application (client) ID copiado no passo 5>"`
     - `"ClientSecret": "<Value copiado no passo 7>"`
-    Salve com Ctrl+S.
+    Salve com Ctrl+S. Alternativa sem risco de commitar o segredo: crie `appsettings.Local.json` na mesma
+    pasta com só a seção `AzureAd` (o arquivo é ignorado pelo git e o app o carrega por cima do `appsettings.json`).
+    Quem usa **VS Code** em vez do Visual Studio: abra a pasta do repositório, aceite a extensão C# recomendada e
+    pressione F5 na configuração `LabExternalId.Web (https://localhost:7100)`; o resto é igual.
 13. Pressione **F5**. Na primeira vez o Visual Studio pergunta **Trust ASP.NET Core SSL Certificate?**:
     responda **Yes** e, no aviso de segurança do Windows, **Yes** de novo.
 14. O navegador abre `https://localhost:7100`. A página inicial mostra o cartão **Como este app está

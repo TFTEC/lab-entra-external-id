@@ -54,7 +54,28 @@ o botão **Entrar**, página **Meu perfil** protegida que lista as claims do ID 
 - No App Service as mesmas chaves entram como variáveis de ambiente `AzureAd__Authority`,
   `AzureAd__ClientId`, `AzureAd__ClientSecret`.
 
-**Nunca faça commit do client secret.** O `appsettings.json` do repositório só tem placeholders.
+**Nunca faça commit do client secret.** O `appsettings.json` do repositório só tem placeholders. Alternativa
+mais segura: crie `src/LabExternalId.Web/appsettings.Local.json` (ignorado pelo git) com a mesma seção
+`AzureAd`; o app carrega esse arquivo por cima do `appsettings.json`.
+
+## Rodar e depurar no VS Code
+
+1. Instale a extensão **C#** (`ms-dotnettools.csharp`; o repositório já a recomenda ao abrir a pasta) e o SDK .NET 10.
+2. Abra a pasta do repositório no VS Code, crie `src/LabExternalId.Web/appsettings.Local.json`:
+
+```json
+{
+  "AzureAd": {
+    "Authority": "https://<subdominio>.ciamlogin.com/",
+    "ClientId": "<client-id>",
+    "ClientSecret": "<secret>"
+  }
+}
+```
+
+3. Pressione **F5** com a configuração **LabExternalId.Web (https://localhost:7100)**. O `launch.json` compila,
+   sobe o app na porta 7100 e abre o navegador. Breakpoints funcionam em `Program.cs`, controllers e views.
+4. Se o navegador reclamar do certificado na primeira vez, rode `dotnet dev-certs https --trust` uma vez e aceite.
 
 ## Como obter o código sem terminal
 

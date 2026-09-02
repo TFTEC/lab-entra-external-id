@@ -10,7 +10,12 @@ JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Seção "AzureAd" do appsettings.json (ou variáveis de ambiente AzureAd__Chave no App Service).
+// appsettings.Local.json é ignorado pelo git: coloque nele Authority, ClientId e ClientSecret do seu tenant
+// sem risco de commitar. Sobrepõe o appsettings.json; variáveis de ambiente (App Service) sobrepõem os dois.
+builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
+builder.Configuration.AddEnvironmentVariables();
+
+// Seção "AzureAd" do appsettings.json / appsettings.Local.json (ou variáveis AzureAd__Chave no App Service).
 var azureAd = builder.Configuration.GetSection("AzureAd");
 
 // Com segredo configurado -> authorization code + PKCE (o app troca o código por tokens no servidor).

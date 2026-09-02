@@ -483,3 +483,6 @@ $RECYCLE.BIN/
 
 # Claude Code local settings
 .claude/
+
+# Configuracao local com segredos (nunca commitar)
+appsettings.Local.json
