@@ -1,0 +1,71 @@
+@model StatusConfiguracaoViewModel
+@{
+    ViewData["Title"] = "Início";
+}
+
+<div class="py-4">
+    <h1 class="display-5">Portal do Cliente</h1>
+    <p class="lead">
+        Aplicativo mínimo em ASP.NET Core que autentica clientes em um tenant externo do
+        Microsoft Entra External ID. Ele existe para mostrar o que um <em>app registration</em> faz na prática.
+    </p>
+
+    @if (Model.ConfiguracaoPendente)
+    {
+        <div class="alert alert-warning" role="alert">
+            <strong>Configuração pendente.</strong> Abra <code>appsettings.json</code> e preencha
+            <code>AzureAd:Authority</code> e <code>AzureAd:ClientId</code> com os valores do seu app registration
+            (módulo 4 do guia). Enquanto isso, o botão <strong>Entrar</strong> vai falhar.
+        </div>
+    }
+
+    <div class="card mb-4">
+        <div class="card-header">Como este app está configurado</div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Authority</dt>
+                <dd class="col-sm-9"><code>@Model.Authority</code></dd>
+                <dt class="col-sm-3">Client ID</dt>
+                <dd class="col-sm-9"><code>@Model.ClientId</code></dd>
+                <dt class="col-sm-3">Fluxo de autenticação</dt>
+                <dd class="col-sm-9">
+                    @Model.Modo.Descricao
+                    @if (!Model.Modo.UsaClientSecret)
+                    {
+                        <br />
+                        <small class="text-muted">
+                            Sem <code>ClientSecret</code> no appsettings: o app registration precisa ter
+                            <strong>ID tokens</strong> marcado em Authentication &gt; Implicit grant and hybrid flows.
+                        </small>
+                    }
+                </dd>
+                <dt class="col-sm-3">Redirect URIs esperados</dt>
+                <dd class="col-sm-9">
+                    <code>https://localhost:7100/signin-oidc</code><br />
+                    <code>https://localhost:7100/signout-callback-oidc</code><br />
+                    <small class="text-muted">Front-channel logout URL: <code>https://localhost:7100/signout-oidc</code></small>
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <p>Você está autenticado. Veja as claims recebidas do Entra External ID em <a asp-controller="Perfil" asp-action="Index">Meu perfil</a>.</p>
+    }
+    else
+    {
+        <p>
+            Clique em <strong>Entrar</strong> no topo, ou acesse <a asp-controller="Perfil" asp-action="Index">Meu perfil</a>
+            para ver o app redirecionar sozinho para a página de login do tenant.
+        </p>
+    }
+
+    <h2 class="h5 mt-4">O que observar durante o laboratório</h2>
+    <ul>
+        <li>A URL de login começa com o <code>Authority</code> acima: é o seu tenant externo, não o <code>login.microsoftonline.com</code>.</li>
+        <li>A página de login usa o branding, os provedores de identidade e os atributos definidos no fluxo de usuário.</li>
+        <li>Após entrar, <strong>Meu perfil</strong> mostra as claims do ID token: <code>oid</code>, <code>sub</code>, <code>preferred_username</code>, <code>name</code>.</li>
+        <li><strong>Sair</strong> encerra a sessão local e a sessão no tenant (front-channel logout) e volta para a página "Você saiu".</li>
+    </ul>
+</div>

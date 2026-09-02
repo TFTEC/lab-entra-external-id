@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Meu perfil";
+    var destaque = new HashSet<string>(StringComparer.Ordinal) { "oid", "sub", "preferred_username", "name", "email", "tid", "iss", "aud" };
+}
+
+<div class="py-4">
+    <h1 class="display-6">Meu perfil</h1>
+    <p class="lead">Olá, <strong>@User.GetDisplayName()</strong>. Estas são as claims que o Entra External ID enviou no ID token.</p>
+
+    <div class="table-responsive">
+        <table class="table table-sm table-striped align-middle">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%">Claim</th>
+                    <th scope="col">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var claim in User.Claims.OrderBy(c => destaque.Contains(c.Type) ? 0 : 1).ThenBy(c => c.Type))
+                {
+                    <tr class="@(destaque.Contains(claim.Type) ? "table-primary" : null)">
+                        <td><code>@claim.Type</code></td>
+                        <td class="text-break">@claim.Value</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h2 class="h6 mt-4">Como ler</h2>
+    <ul class="small">
+        <li><code>oid</code> é o identificador do cliente no diretório; é o que você vê em Entra ID &gt; Users.</li>
+        <li><code>sub</code> é estável por usuário <em>e</em> por aplicativo: outro app registration recebe outro <code>sub</code>.</li>
+        <li><code>preferred_username</code> é o e-mail usado no cadastro; <code>name</code> é o nome de exibição informado.</li>
+        <li><code>iss</code> aponta para o seu tenant externo (<code>*.ciamlogin.com</code>); <code>aud</code> é o Client ID deste app.</li>
+        <li>Atributos customizados como <strong>Empresa</strong> só aparecem aqui se forem adicionados ao token em App registrations &gt; Token configuration.</li>
+    </ul>
+
+    <a class="btn btn-outline-secondary" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Sair</a>
+</div>

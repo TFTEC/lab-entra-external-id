@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LabExternalId.Web/LabExternalId.Web.csproj" />
+  </Folder>
+</Solution>

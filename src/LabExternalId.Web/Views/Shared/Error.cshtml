@@ -1,0 +1,18 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Erro";
+}
+
+<h1 class="text-danger">Erro</h1>
+<h2 class="text-danger">Ocorreu um erro ao processar sua solicitação.</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p><strong>Request ID:</strong> <code>@Model.RequestId</code></p>
+}
+
+<h3>Dicas para o laboratório</h3>
+<p>
+    Erros de autenticação costumam vir com um código <code>AADSTS</code> na própria página do Entra, não aqui.
+    Consulte <code>docs/troubleshooting.md</code> no repositório para os códigos mais comuns.
+</p>
