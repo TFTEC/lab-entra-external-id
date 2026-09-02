@@ -74,6 +74,17 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Conferir resource provider Microsoft.Web
+        shell: bash
+        run: |
+          # Contributor no resource group não consegue registrar providers; isso é feito uma vez pelo Owner (módulo 9, passo A).
+          state=$(az provider show --namespace Microsoft.Web --query registrationState -o tsv 2>/dev/null || echo "Desconhecido")
+          echo "Microsoft.Web: $state"
+          if [ "$state" = "NotRegistered" ] || [ "$state" = "Unregistered" ]; then
+            echo "::error::O resource provider Microsoft.Web não está registrado nesta assinatura. No portal: Subscriptions > sua assinatura > Settings > Resource providers > Microsoft.Web > Register. Depois rode o workflow de novo."
+            exit 1
+          fi
+
       - name: Validar template
         shell: bash
         run: |
