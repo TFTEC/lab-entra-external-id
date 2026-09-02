@@ -28,7 +28,7 @@
                     <ul class="navbar-nav">
                         @if (User.Identity?.IsAuthenticated == true)
                         {
-                            <li class="nav-item navbar-text me-3">Olá, <strong>@User.GetDisplayName()</strong></li>
+                            <li class="nav-item navbar-text me-3">Olá, <strong>@(User.FindFirst("name")?.Value ?? User.GetDisplayName())</strong></li>
                             <li class="nav-item">
                                 <a class="btn btn-outline-secondary" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Sair</a>
                             </li>

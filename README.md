@@ -8,12 +8,12 @@ Público: profissionais que já conhecem Azure e Entra ID. O guia não explica c
 
 ## Pré-requisitos do aluno
 
-Traga tudo pronto antes da aula. A criação do tenant leva até 30 minutos e é feita **antes** (módulo 0).
+Traga tudo pronto antes da aula. A criação do tenant leva até 30 minutos e é feita **antes** (pré-aula).
 
 | Item | Detalhe |
 |------|---------|
 | Assinatura Azure | Você precisa ser **Owner** da assinatura (cria o tenant externo, o resource group e, no módulo opcional, o App Service). |
-| Tenant externo criado | Siga [docs/00-preparacao.md](docs/00-preparacao.md) antes da aula. |
+| Tenant externo criado | Siga [docs/pre-aula.md](docs/pre-aula.md) antes da aula. |
 | Visual Studio 2026 | Edição Community serve. Workload **ASP.NET e desenvolvimento web**. O app é .NET 10; o Visual Studio 2022 não compila. |
 | Conta GitHub | Para clonar o repositório e, no módulo 8, criar o seu a partir deste template. |
 | E-mail pessoal | Gmail, Outlook.com ou similar, diferente da conta de administrador. É a identidade do "cliente" que recebe código de MFA e link de reset. Alternativa: sufixo `+cliente` no seu e-mail, se o provedor entregar. |
@@ -23,7 +23,8 @@ Traga tudo pronto antes da aula. A criação do tenant leva até 30 minutos e é
 
 | # | Módulo | Min | Guia |
 |---|--------|-----|------|
-| 0 | Preparação: pré-requisitos e criação do tenant externo (pré-aula) | pré-aula | [docs/00-preparacao.md](docs/00-preparacao.md) |
+| pré | Preparação: pré-requisitos e criação do tenant externo (pré-aula) | pré-aula | [docs/pre-aula.md](docs/pre-aula.md) |
+| 0 | Introdução: agenda, conceitos, External ID versus B2C, preços, arquitetura | 10 | [docs/00-introducao.md](docs/00-introducao.md) |
 | 1 | Tour do tenant no Microsoft Entra admin center | 5 | [docs/01-tour-tenant.md](docs/01-tour-tenant.md) |
 | 2 | Company Branding | 10 | [docs/02-branding.md](docs/02-branding.md) |
 | 3 | Atributo customizado e fluxo de usuário de cadastro/entrada | 15 | [docs/03-fluxo-de-usuario.md](docs/03-fluxo-de-usuario.md) |

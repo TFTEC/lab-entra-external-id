@@ -17,7 +17,20 @@ Conditional Access. Ver o pedido de MFA aparecer no login sem mudar nada no cód
 
 ## Passos
 
-### A. Criar a política
+### A. Desligar os Security defaults (uma vez por tenant)
+
+Tenant externo novo vem com **Security defaults** habilitado, e o portal não deixa ativar uma política de
+Conditional Access enquanto eles estiverem ligados (o assistente mostra um aviso amarelo com o link para
+desabilitar). Faça antes de criar a política:
+
+1. **Entra ID > Overview > Properties**, no fim da página, **Manage security defaults**.
+   (Ou clique no link **disable security defaults** do aviso amarelo dentro do assistente de nova política.)
+2. **Security defaults**: `Disabled (not recommended)`. Em **Reason for disabling**, marque `My organization is
+   planning to use Conditional Access` e **Save**. O aviso amarelo do assistente some depois de recarregar.
+
+   ![Painel Security defaults com o motivo "planejando usar o Acesso Condicional" marcado](img/06-security-defaults-motivo.jpg)
+
+### B. Criar a política
 
 1. **Entra ID > Conditional Access > Policies > + New policy**.
 2. **Name**: `MFA-LabExternalId`.
@@ -33,7 +46,7 @@ Conditional Access. Ver o pedido de MFA aparecer no login sem mudar nada no cód
 6. **Enable policy**: **On**.
 7. **Create**.
 
-### B. Testar como cliente
+### C. Testar como cliente
 
 8. No app, clique em **Sair** e depois em **Entrar**.
 9. Informe e-mail e senha do cliente. O tenant agora pede um **código de verificação** enviado ao e-mail.
@@ -41,7 +54,7 @@ Conditional Access. Ver o pedido de MFA aparecer no login sem mudar nada no cód
 11. **Meu perfil**: a claim `amr` (se presente) ou a lista de claims não muda de forma visível; o efeito do
     MFA aparece no log de entrada, no módulo 7.
 
-### C. Ver a política em ação (opcional, 2 minutos)
+### D. Ver a política em ação (opcional, 2 minutos)
 
 12. **Entra ID > Conditional Access > Policies > MFA-LabExternalId**: mude **Enable policy** para
     **Report-only**, **Save**, e entre de novo no app: sem pedido de código. Volte para **On**.
@@ -54,6 +67,8 @@ Conditional Access. Ver o pedido de MFA aparecer no login sem mudar nada no cód
 
 ## Se der errado
 
+- **Botão Create desabilitado ou aviso "disable security defaults"**: os Security defaults ainda estão
+  ligados. Passo A.
 - **Não pediu MFA**: a política leva até alguns minutos para valer; o navegador pode ter sessão antiga
   (use janela anônima); o app selecionado em Target resources não é o `LabExternalId-Web`; ou a política
   ficou em Report-only.

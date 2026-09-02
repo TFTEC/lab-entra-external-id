@@ -1,9 +1,10 @@
-# Módulo 0 — Preparação (antes da aula)
+# Pré-aula — Preparação do ambiente (antes da aula)
 
 ## Objetivo
 
 Chegar na aula com o tenant externo criado, o Visual Studio 2026 instalado e um e-mail de teste separado.
-A criação do tenant leva até 30 minutos, por isso é feita antes.
+A criação do tenant leva até 30 minutos, por isso é feita antes. A aula em si começa pelo
+[módulo 0, Introdução](00-introducao.md).
 
 ## Tempo estimado
 
@@ -84,3 +85,6 @@ celular, porque recebe código de verificação no cadastro, código de MFA e li
   Se persistir, abra `Entra ID > Overview > Manage tenants` na conta original e verifique o status.
 - **O portal só oferece o trial**: a assinatura não está visível para a conta logada. Confira em
   `https://portal.azure.com` > Subscriptions se ela aparece; se não, entre com a conta certa.
+- **Erro ao criar atributo ou fluxo nos primeiros minutos após a criação** ("Há um problema com o
+  serviço... aguarde alguns minutos"): o tenant ainda está provisionando componentes internos. Observado até
+  20 minutos após a criação. Mais um motivo para criar o tenant na véspera.

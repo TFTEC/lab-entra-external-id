@@ -11,7 +11,7 @@ instrutor no ar (plano B dos alunos) e o repositório pronto para a turma. Marqu
 
 ## 2. Tenant externo do instrutor
 
-- [ ] Criar o tenant externo seguindo `docs/00-preparacao.md` (pode levar até 30 min). País/região não muda depois.
+- [ ] Criar o tenant externo seguindo `docs/pre-aula.md` (pode levar até 30 min). País/região não muda depois.
 - [ ] Rodar `docs/01` a `docs/07` inteiros no próprio tenant. Marcar cada verificação abaixo conforme acontece:
   - [ ] **Admin 365:** abrir `admin.microsoft.com` e anotar no `roteiro.md` (M1) se o tenant externo aparece no seletor de organizações.
   - [ ] O botão **Run now** (ou `Run user flow`) existe no painel do fluxo `SignUpSignIn`. Se o nome for outro, corrigir `docs/03`.
@@ -47,7 +47,7 @@ instrutor no ar (plano B dos alunos) e o repositório pronto para a turma. Marqu
 
 ## 5. Comunicação com a turma (enviar com antecedência)
 
-- [ ] Pré-requisitos obrigatórios: assinatura Azure própria com papel **Owner**; **tenant externo já criado** seguindo `docs/00-preparacao.md` (até 30 min de provisionamento, por isso é pré-aula); **Visual Studio 2026** (Community serve) com workload "ASP.NET e desenvolvimento web"; conta **GitHub**; um **e-mail pessoal** acessível durante a aula para o papel de cliente.
+- [ ] Pré-requisitos obrigatórios: assinatura Azure própria com papel **Owner**; **tenant externo já criado** seguindo `docs/pre-aula.md` (até 30 min de provisionamento, por isso é pré-aula); **Visual Studio 2026** (Community serve) com workload "ASP.NET e desenvolvimento web"; conta **GitHub**; um **e-mail pessoal** acessível durante a aula para o papel de cliente.
 - [ ] Opcionais, só para os bônus: conta Google (`bonus-google.md`), conta Meta for Developers com verificação por telefone (`bonus-facebook.md`).
 - [ ] Avisar explicitamente: **Visual Studio 2022 não compila .NET 10**. Quem só tiver 2022 acompanha pelo plano B.
 - [ ] Link do repositório (será público no dia) e horário.

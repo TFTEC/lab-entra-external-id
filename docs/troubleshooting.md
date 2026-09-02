@@ -24,6 +24,7 @@ erro do próprio Entra; os `IDX` aparecem no Visual Studio (janela Output) ou na
 | **AADSTS50020** `User account ... does not exist in tenant` | Tentou entrar com a conta administradora (tenant corporativo) no fluxo de cliente | Use o e-mail de teste; a conta admin não é cliente |
 | Erro dizendo que o app não está associado a um fluxo de usuário | Passo de associação não feito | `User flows > SignUpSignIn > Applications > Add application` |
 | **IDX20803** `Unable to obtain configuration from ...` | `Authority` com placeholder, erro de digitação ou sem internet | Corrija o `Authority`; a URL de metadados que o app tentou aparece no erro |
+| **AuthenticationFailureException: Correlation failed** em `/signin-oidc` | Passaram mais de 15 minutos entre clicar em **Entrar** e voltar ao app (o cookie de correlação expira); comum no primeiro cadastro, esperando o código chegar. O cadastro em si foi concluído no tenant | Volte à página inicial do app e clique em **Entrar** de novo; agora é só login |
 | **IDX10501 / IDX10214** (assinatura ou audience inválida) | `ClientId` não bate com o app que emitiu o token | Copie de novo o Application (client) ID |
 | `ERR_CERT_AUTHORITY_INVALID` no navegador | Respondeu **No** ao pedido de confiar no certificado de desenvolvimento | Pare o app, rode F5 de novo e responda **Yes** duas vezes |
 | Página do Entra sem branding | Propagação (minutos) ou cache | Aguarde e use janela anônima |

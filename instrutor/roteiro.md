@@ -1,7 +1,8 @@
 # Roteiro do instrutor — Lab Microsoft Entra External ID (2 horas)
 
 Aula 100% hands-on, sem slides. Cada aluno trabalha no próprio tenant externo, criado antes da aula
-(`docs/00-preparacao.md`). Público sênior: não explique Azure, explique External ID.
+(`docs/pre-aula.md`). O roteiro de fala do M0 está em `docs/00-introducao.md`, com agenda, comparação com o
+B2C, preços e diagramas de arquitetura. Público sênior: não explique Azure, explique External ID.
 
 | Módulo | Início | Fim | Min | Guia do aluno |
 |--------|--------|-----|-----|---------------|
@@ -33,7 +34,7 @@ Tenha o `instrutor/riscos-plano-b.md` aberto em outra aba durante a aula inteira
 - Console é o **Entra admin center** (`entra.microsoft.com`). O **Microsoft 365 admin center não entra**: tenant externo não tem superfície de administração lá, não tem SSO para M365 e add-ons pagos são comprados no tenant corporativo. Portal do Azure só aparece no M8 para o App Service.
 - O app .NET existe para mostrar o que o app registration faz. Não é aula de .NET.
 
-**O aluno faz (5 min):** confere pré-requisitos (Visual Studio 2026 aberto, tenant externo criado, e-mail pessoal acessível). Quem não criou o tenant começa agora por `docs/00-preparacao.md` e acompanha os módulos 2 a 7 como cliente no app do instrutor (plano B) até o tenant ficar pronto.
+**O aluno faz (5 min):** confere pré-requisitos (Visual Studio 2026 aberto, tenant externo criado, e-mail pessoal acessível). Quem não criou o tenant começa agora por `docs/pre-aula.md` e acompanha os módulos 2 a 7 como cliente no app do instrutor (plano B) até o tenant ficar pronto.
 
 **Checkpoint coletivo:** "Todo mundo consegue abrir `entra.microsoft.com` e alternar para o tenant externo?"
 

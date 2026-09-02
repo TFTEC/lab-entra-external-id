@@ -7,7 +7,7 @@ tempo procurando menu nos módulos seguintes.
 
 ## Tempo estimado
 
-5 minutos. Quem chegou sem o tenant criado: abra o módulo 0, dispare a criação agora e acompanhe o
+5 minutos. Quem chegou sem o tenant criado: abra a pré-aula (`pre-aula.md`), dispare a criação agora e acompanhe o
 instrutor pelo app publicado dele (plano B) até o seu tenant ficar pronto.
 
 ## Passos

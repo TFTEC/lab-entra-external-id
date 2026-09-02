@@ -79,12 +79,16 @@ app funcionando sem client secret.
     - **Nome** e **Empresa**: preencha. Os dois são obrigatórios por causa do módulo 3.
     - Conclua. O navegador volta para o app com **Olá, <nome>** no topo.
 17. Clique em **Meu perfil**. A tabela lista as claims do ID token. Localize:
-    - `oid`: o ID do cliente no diretório.
+    - `name`: o nome informado no cadastro.
+    - `oid`: o ID do cliente no diretório (o mesmo que aparece em `Entra ID > Users`).
     - `preferred_username`: o e-mail de teste.
-    - `name`: o nome informado.
-    - `iss`: `https://<tenant-id>.ciamlogin.com/<tenant-id>/v2.0`.
-    - `aud`: o Client ID do app.
-18. Clique em **Sair**. O app encerra a sessão local, avisa o tenant e mostra a página **Você saiu**.
+    - `sub`: identificador estável do par cliente + aplicativo.
+    - `tid`: o ID do seu tenant externo.
+    Aparecem também `sid`, `uti`, `rh`, `uid`, `utid`; `iss` e `aud` não são expostos como claims pelo app.
+    O atributo `Empresa` foi gravado no diretório, mas não vem no token (ver módulo 3).
+18. Clique em **Sair**. O app encerra a sessão local e leva ao tenant, que pode mostrar a tela **Sair** com a
+    lista de contas conectadas: clique na conta do cliente. Em seguida o tenant devolve para o app, que mostra a
+    página **Você saiu**.
 19. Clique em **Entrar** de novo. O tenant pede as credenciais outra vez: a sessão do tenant também acabou.
     Entre e confirme que **Meu perfil** volta a funcionar.
 

@@ -5,7 +5,7 @@
 
 <div class="py-4">
     <h1 class="display-6">Meu perfil</h1>
-    <p class="lead">Olá, <strong>@User.GetDisplayName()</strong>. Estas são as claims que o Entra External ID enviou no ID token.</p>
+    <p class="lead">Olá, <strong>@(User.FindFirst("name")?.Value ?? User.GetDisplayName())</strong>. Estas são as claims que o Entra External ID enviou no ID token.</p>
 
     <div class="table-responsive">
         <table class="table table-sm table-striped align-middle">
@@ -32,7 +32,7 @@
         <li><code>oid</code> é o identificador do cliente no diretório; é o que você vê em Entra ID &gt; Users.</li>
         <li><code>sub</code> é estável por usuário <em>e</em> por aplicativo: outro app registration recebe outro <code>sub</code>.</li>
         <li><code>preferred_username</code> é o e-mail usado no cadastro; <code>name</code> é o nome de exibição informado.</li>
-        <li><code>iss</code> aponta para o seu tenant externo (<code>*.ciamlogin.com</code>); <code>aud</code> é o Client ID deste app.</li>
+        <li><code>tid</code> é o ID do seu tenant externo; <code>sid</code> identifica a sessão no tenant (é o que o Sair encerra).</li>
         <li>Atributos customizados como <strong>Empresa</strong> só aparecem aqui se forem adicionados ao token em App registrations &gt; Token configuration.</li>
     </ul>
 

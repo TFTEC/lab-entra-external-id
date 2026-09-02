@@ -118,7 +118,7 @@ Feito no **tenant corporativo** onde está a assinatura, não no tenant externo 
 20. **Actions > Desprovisionar ambiente > Run workflow**, digite o nome do resource group no campo de confirmação.
     O Web App e o plano somem; grupo, identidade e permissão ficam para a próxima vez. O workflow se recusa a
     rodar se o grupo contiver um recurso de diretório (o vínculo do tenant externo), por isso o tenant fica em
-    `rg-lab-externalid-tenant` (módulo 0) e o App Service em `rg-lab-externalid`.
+    `rg-lab-externalid-tenant` (pré-aula) e o App Service em `rg-lab-externalid`.
 
 ## Checkpoint
 
@@ -146,6 +146,6 @@ Feito no **tenant corporativo** onde está a assinatura, não no tenant externo 
 ## Por que o workflow não cria nem configura o tenant externo
 
 Criar o tenant por ARM é possível, mas leva até 30 minutos, o tenant nasce criado por uma identidade de
-serviço, e o módulo 0 já cobre a criação pelo portal. Configurar o tenant (fluxo, atributo, branding, MFA)
+serviço, e a pré-aula já cobre a criação pelo portal. Configurar o tenant (fluxo, atributo, branding, MFA)
 por Microsoft Graph exigiria outra identidade dentro do tenant externo e duplicaria em código o que o lab
 ensina à mão. Fica como evolução separada, se um dia valer a pena.
