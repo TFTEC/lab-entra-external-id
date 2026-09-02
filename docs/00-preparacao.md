@@ -43,7 +43,9 @@ O Visual Studio 2022 não serve: ele não compila projetos .NET 10.
    - **Next: Add a subscription**.
 6. Aba **Add a subscription**:
    - **Subscription**: a sua.
-   - **Resource group**: **Create new** com o nome `rg-lab-externalid`.
+   - **Resource group**: **Create new** com o nome `rg-lab-externalid-tenant`. Use um grupo só para o tenant:
+     os módulos 8 e 9 usam `rg-lab-externalid` para o App Service e o esvaziam ao final, e o vínculo do tenant
+     com a assinatura não pode estar lá.
    - **Resource group location**: `Brazil South`.
    - **Next: Review + create**.
 7. Confira e clique em **Create**. O portal avisa que pode levar até 30 minutos. Pode fechar a aba.

@@ -116,7 +116,9 @@ Feito no **tenant corporativo** onde está a assinatura, não no tenant externo 
 ### F. Desprovisionar
 
 20. **Actions > Desprovisionar ambiente > Run workflow**, digite o nome do resource group no campo de confirmação.
-    O Web App e o plano somem; grupo, identidade e permissão ficam para a próxima vez.
+    O Web App e o plano somem; grupo, identidade e permissão ficam para a próxima vez. O workflow se recusa a
+    rodar se o grupo contiver um recurso de diretório (o vínculo do tenant externo), por isso o tenant fica em
+    `rg-lab-externalid-tenant` (módulo 0) e o App Service em `rg-lab-externalid`.
 
 ## Checkpoint
 

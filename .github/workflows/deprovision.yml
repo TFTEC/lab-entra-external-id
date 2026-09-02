@@ -50,7 +50,15 @@ jobs:
 
       - name: Listar o que será removido
         shell: bash
-        run: az resource list --resource-group "${{ steps.params.outputs.resource_group }}" --query "[].{nome:name, tipo:type}" --output table
+        run: |
+          rg="${{ steps.params.outputs.resource_group }}"
+          az resource list --resource-group "$rg" --query "[].{nome:name, tipo:type}" --output table
+          # Trava: o vínculo de um tenant externo (ou B2C) com a assinatura vive como recurso; nunca deve ser apagado aqui.
+          dirs=$(az resource list --resource-group "$rg" --query "[?starts_with(type, 'Microsoft.AzureActiveDirectory/')].name" -o tsv)
+          if [ -n "$dirs" ]; then
+            echo "::error::O resource group '$rg' contém recursos de diretório ($dirs). Este workflow só esvazia grupos com o App Service do lab. Crie o tenant em outro grupo (docs/00) ou informe o grupo certo."
+            exit 1
+          fi
 
       - name: Remover recursos (modo Complete)
         shell: bash
