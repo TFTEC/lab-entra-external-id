@@ -198,3 +198,10 @@ Estado final ao término desta sessão. Substitui, onde divergir, as tabelas aci
 - [ ] Tenant de teste `labextidtftec` (criado no ensaio de 2026-09-02): apagar em `Manage tenants` se não for usado, e depois o resource group `rg-lab-externalid-tenant`.
 - [ ] No tenant `ciammasters`: política `MFA-LabExternalId` (com Security defaults desligado) e branding, se ainda não feitos em aula.
 - [ ] Rotacionar o segredo `lab-appservice` quando o ambiente for reprovisionado para outra turma.
+
+### Limpeza executada em 2026-09-03 03:25 UTC
+
+- Identidade `github-lab-entra-external-teste`: ganhou Contributor em `rg-lab-ciam-eastus` (grupo do App Service atual) e **perdeu o Contributor na assinatura**. Papéis restantes: `rg-lab-ciam-eastus`, `rg-lab-ciam-eastus2`, `rg-lab-ciam` (este último em exclusão).
+- `rg-lab-ciam` (vazio) apagado.
+- **`rg-lab-ciam-eastus2` não pode ser apagado**: contém `ciammasters.onmicrosoft.com`, o vínculo do tenant externo da aula com a assinatura (criado 2026-09-03 00:19 UTC). Apagar esse recurso desvincula o tenant.
+- App Service `lab-ciam-tftec-ciam` continua no ar (HTTP 200) até você rodar **Desprovisionar ambiente** com `rg-lab-ciam-eastus`.

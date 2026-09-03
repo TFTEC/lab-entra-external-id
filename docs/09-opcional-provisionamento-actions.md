@@ -118,6 +118,10 @@ Feito no **tenant corporativo** onde está a assinatura, não no tenant externo 
     - **Save**. O `<host>` tem um sufixo único gerado pelo Azure; copie do Summary.
 19. Abra a URL do app, **Entrar**, entre como cliente, **Meu perfil**, **Sair**.
 
+    ![App publicado no App Service, página inicial com a configuração do tenant](img/08-app-publicado-inicio.jpg)
+
+    ![App publicado após o login do cliente](img/08-app-publicado-autenticado.jpg)
+
 ### F. Desprovisionar
 
 20. **Actions > Desprovisionar ambiente > Run workflow**, digite o nome do resource group no campo de confirmação.

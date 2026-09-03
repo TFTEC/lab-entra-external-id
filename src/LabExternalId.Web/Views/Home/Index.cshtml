@@ -1,6 +1,8 @@
 @model StatusConfiguracaoViewModel
 @{
     ViewData["Title"] = "Início";
+    // Base real desta instância (localhost no F5, hostname do App Service quando publicado).
+    var baseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}";
 }
 
 <div class="py-4">
@@ -39,11 +41,11 @@
                         </small>
                     }
                 </dd>
-                <dt class="col-sm-3">Redirect URIs esperados</dt>
+                <dt class="col-sm-3">Redirect URIs desta instância</dt>
                 <dd class="col-sm-9">
-                    <code>https://localhost:7100/signin-oidc</code><br />
-                    <code>https://localhost:7100/signout-callback-oidc</code><br />
-                    <small class="text-muted">Front-channel logout URL: <code>https://localhost:7100/signout-oidc</code></small>
+                    <code>@baseUrl/signin-oidc</code><br />
+                    <code>@baseUrl/signout-callback-oidc</code><br />
+                    <small class="text-muted">Front-channel logout URL: <code>@baseUrl/signout-oidc</code>. Estes três valores precisam estar no app registration.</small>
                 </dd>
             </dl>
         </div>

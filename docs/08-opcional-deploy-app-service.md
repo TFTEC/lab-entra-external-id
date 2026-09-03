@@ -100,7 +100,10 @@ workflow pronto e Bicep, sem passar pelo Deployment Center. Escolha um dos dois 
 
 25. Confirme na aba **Actions** do GitHub que o run terminou com sucesso.
 26. Abra `https://<dominio>/` no navegador. A página inicial deve mostrar o card "Como este app está configurado"
-    com o seu Authority e Client ID, e o fluxo "Authorization code + PKCE (com client secret)".
+    com o seu Authority e Client ID, o fluxo "Authorization code + PKCE (com client secret)" e, em
+    "Redirect URIs desta instância", os três valores já com o hostname do App Service (copie dali para o passo 22).
+
+    ![App publicado no App Service](img/08-app-publicado-inicio.jpg)
 27. Clique em **Entrar**, autentique-se com o cliente criado no módulo 4 e abra **Meu perfil**.
 28. Clique em **Sair** e confirme a página "Você saiu".
 
