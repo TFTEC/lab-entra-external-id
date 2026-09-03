@@ -132,6 +132,10 @@ Feito no **tenant corporativo** onde está a assinatura, não no tenant externo 
   subject '...'`**: o subject da credencial federada não é idêntico ao apresentado. A mensagem traz o subject
   exato (com os IDs numéricos); edite a credencial `github-main` e cole esse valor no **Subject identifier**.
   Também acontece se o workflow rodou fora da branch `main`. Confira os passos 7 e 8.
+- **`AADSTS70025: The client '...'(LabExternalId-Web) has no configured federated identity credentials`**:
+  o secret `AZURE_CLIENT_ID` recebeu o Client ID do app do cliente (`LabExternalId-Web`, tenant externo) em vez
+  do app `github-lab-entra-external-id` (tenant corporativo, passo 6). São dois app registrations com papéis
+  diferentes: `AZURE_*` = identidade do GitHub no Azure; `AZUREAD_*` = app do cliente no tenant externo.
 - **`AuthorizationFailed`**: Contributor não atribuído no resource group, ou `AZURE_SUBSCRIPTION_ID` de outra
   assinatura. Confira os passos 4 e 9 a 11.
 - **`MissingSubscriptionRegistration` para `Microsoft.Web`**: registre o resource provider na assinatura
