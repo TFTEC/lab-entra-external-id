@@ -205,3 +205,11 @@ Estado final ao término desta sessão. Substitui, onde divergir, as tabelas aci
 - `rg-lab-ciam` (vazio) apagado.
 - **`rg-lab-ciam-eastus2` não pode ser apagado**: contém `ciammasters.onmicrosoft.com`, o vínculo do tenant externo da aula com a assinatura (criado 2026-09-03 00:19 UTC). Apagar esse recurso desvincula o tenant.
 - App Service `lab-ciam-tftec-ciam` continua no ar (HTTP 200) até você rodar **Desprovisionar ambiente** com `rg-lab-ciam-eastus`.
+
+### Encerramento pós-aula (2026-09-03 03:35 UTC, autorizado pelo instrutor)
+
+- **Desprovisionar ambiente** executado para `rg-lab-ciam-eastus` (plano B1 e Web App `lab-ciam-tftec-ciam` removidos; o grupo e o Contributor da identidade ficam para a próxima turma; ver resultado do run em Actions).
+- Identidade antiga `github-lab-entra-external-id` (`a15eb099…`) **excluída** (App registrations > Deleted applications permite restaurar por 30 dias) e seu papel em `rg-lab-externalid` removido. A identidade em uso é `github-lab-entra-external-teste` (`36827908…`).
+- Tenant de teste `labextidtftec` (`9fc5e79e…`): cliente de teste e app registration `LabExternalId-Web` excluídos via Graph; resource group `rg-lab-externalid-tenant` (vínculo com a assinatura) em exclusão. **Passo final manual**: no Entra admin center, com o tenant `labextidtftec` selecionado, `Entra ID > Overview > Manage tenants > selecionar o tenant > Delete`; o assistente lista o que ainda falta (fluxo de usuário, atributo, métodos), com links para cada item. Enquanto não for apagado, o tenant fica sem assinatura vinculada e não gera custo.
+- Grupos vazios que podem ser apagados quando quiser: `rg-lab-externalid`, `rg-lab-ciam-eastus` (se não houver próxima turma).
+- Recursos que **continuam**: tenant `ciammasters` (com seu vínculo em `rg-lab-ciam-eastus2`), identidade `github-lab-entra-external-teste`, secrets e variáveis do GitHub, repositório público.
