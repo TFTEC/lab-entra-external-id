@@ -157,3 +157,11 @@ for executado, o branding se faz pelo portal seguindo `docs/02-branding.md` com 
    credencial federada e o service principal).
 4. GitHub: *Settings > Secrets and variables > Actions*, remover `AZURE_*` e `AZUREAD_*`.
 5. Local: apagar a pasta temporária `%USERPROFILE%\.claude\jobs\f0410da5` se ainda existir.
+
+## Deploy do plano B (durante a aula, 2026-09-03 02:10 UTC)
+
+- Tenant externo usado pelo instrutor na aula: `ciammasters` (authority `https://ciammasters.ciamlogin.com/`, app registration `cd7ba530-70ca-49ca-b668-3a0f735d5e57`), configurado nas variaveis `AZUREAD_AUTHORITY` / `AZUREAD_CLIENT_ID` e no secret `AZUREAD_CLIENT_SECRET`.
+- Resource group novo `rg-lab-ciam` (brazilsouth) com Contributor para `github-lab-entra-external-id`; App Service `lab-ciam-tftec` (B1 Windows) criado em **eastus2** via variavel `AZURE_LOCATION`, porque a assinatura tem cota zero de B1 em Brazil South.
+- Duas falhas antes do sucesso: `AZURE_CLIENT_ID` apontando para o app do cliente (AADSTS70025) e cota de B1; ambas documentadas em `docs/09`.
+- Run verde: 33706474561. URL: `https://lab-ciam-tftec-dkcwe4bvfqfug5ed.eastus2-01.azurewebsites.net/` (HTTP 200).
+- Pendente no tenant `ciammasters`: redirect URIs `/signin-oidc` e `/signout-callback-oidc` do host acima e front-channel logout `/signout-oidc`; associar o app ao fluxo. Depois da aula: **Desprovisionar ambiente** com `rg-lab-ciam` (B1 e cobrado por hora).
