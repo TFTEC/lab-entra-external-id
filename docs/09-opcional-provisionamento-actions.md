@@ -149,6 +149,12 @@ Feito no **tenant corporativo** onde está a assinatura, não no tenant externo 
 - **Deploy falha por autenticação básica desabilitada**: o `azure/webapps-deploy@v3` publica pela sessão do
   `azure/login`, sem publish profile; confira se o job **Publicar o app** fez login antes do deploy.
 - **App mostra "Configuração pendente"**: `AZUREAD_AUTHORITY` e `AZUREAD_CLIENT_ID` (ou os inputs) vazios.
+- **Login redireciona de volta e o App Service responde `500` em `/signin-oidc`**: o tenant aceitou o login
+  (senão o erro apareceria na página do Entra), mas o app não conseguiu trocar o código por token. Causa
+  típica: `AZUREAD_CLIENT_SECRET` inválido (Secret ID copiado no lugar do Value, ou segredo regenerado), que
+  gera **AADSTS7000215** no log do app. Crie um segredo novo em `Certificates & secrets`, atualize o secret no
+  GitHub e rode o workflow de novo (ou altere `AzureAd__ClientSecret` em `Environment variables` do App Service
+  e reinicie). Segredo novo leva até um minuto para valer.
 
 ## Por que o workflow não cria nem configura o tenant externo
 
