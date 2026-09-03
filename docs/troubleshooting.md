@@ -37,6 +37,12 @@ erro do próprio Entra; os `IDX` aparecem no Visual Studio (janela Output) ou na
 | App Service mostra página padrão do Azure | Deploy ainda rodando ou falhou | `Deployment Center > Logs`; aba Actions no GitHub |
 | App Service redireciona para login e volta com **AADSTS50011** | Redirect URIs do App Service não registrados | Adicione `https://<dominio>/signin-oidc` e `/signout-callback-oidc` no app registration |
 | Deployment Center não lista a organização/repositório | GitHub App "Azure App Service" não autorizado na organização, ou repositório privado sem acesso | Autorize em GitHub `Settings > Third-party access`; use o repositório da sua conta criado por "Use this template" |
+| Workflow: **AADSTS700213** `No matching federated identity record found` | Subject da credencial federada sem os IDs numéricos do GitHub | Copie o subject exato da mensagem de erro para a credencial (módulo 9, passo 7) |
+| Workflow: **AADSTS70025** `has no configured federated identity credentials` | `AZURE_CLIENT_ID` aponta para o app do cliente (`LabExternalId-Web`) em vez da identidade do GitHub | Troque pelo Client ID do app `github-lab-entra-external-id` (tenant corporativo) |
+| Workflow: **No subscriptions found** no login | Service principal novo sem papel na assinatura | Contributor no resource group para esse app (módulo 9, passo C) |
+| Workflow: **Current Limit (B1 VMs): 0** | Sem cota de B1 na região do resource group | Variável `AZURE_LOCATION` com outra região (ex.: `eastus2`) |
+| App Service: **500** em `/signin-oidc` após o login no tenant | Client secret inválido no App Service (AADSTS7000215 no log) | Novo segredo em `Certificates & secrets`; atualizar `AzureAd__ClientSecret` (ou o secret do GitHub e rodar o workflow) |
+| GitHub API responde **404** para o repositório | Repositório ainda privado | `Settings > General > Change visibility > Public` (ou convidar o aluno) |
 | Google: `redirect_uri_mismatch` | Faltou um dos 7 redirect URIs ou o domínio autorizado | Bônus Google, lista completa |
 | Facebook: `App not active` ou login negado | App em Development mode e o usuário não é Tester | Adicione o usuário em App roles > Testers |
 

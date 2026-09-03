@@ -98,6 +98,11 @@ Feito no **tenant corporativo** onde está a assinatura, não no tenant externo 
     | `WEBAPP_NAME` | nome único do Web App, por exemplo `lab-externalid-<seu-nome>` |
     | `AZUREAD_AUTHORITY` | `https://<subdominio>.ciamlogin.com/` do seu tenant externo |
     | `AZUREAD_CLIENT_ID` | Client ID do app registration `LabExternalId-Web` |
+    | `AZURE_LOCATION` | opcional: região do App Service (ex.: `eastus2`) quando a região do resource group não tem cota de B1; vazio usa a região do grupo |
+
+    Não confunda os dois pares: `AZURE_*` identificam **quem faz o deploy** (app registration do tenant
+    corporativo, com credencial federada e Contributor no resource group); `AZUREAD_*` identificam **o app do
+    cliente** no tenant externo (o que o site publicado usa para autenticar).
 
 ### E. Executar
 
@@ -136,6 +141,10 @@ Feito no **tenant corporativo** onde está a assinatura, não no tenant externo 
   o secret `AZURE_CLIENT_ID` recebeu o Client ID do app do cliente (`LabExternalId-Web`, tenant externo) em vez
   do app `github-lab-entra-external-id` (tenant corporativo, passo 6). São dois app registrations com papéis
   diferentes: `AZURE_*` = identidade do GitHub no Azure; `AZUREAD_*` = app do cliente no tenant externo.
+- **`Error: No subscriptions found for ***`** no passo de login: o token OIDC foi aceito (o log mostra o subject),
+  mas o service principal do app não tem nenhum papel na assinatura. Acontece sempre com app registration
+  recém-criado. Faça o passo C (Contributor no resource group) para **esse** app e rode de novo; leva menos de
+  um minuto para valer.
 - **`AuthorizationFailed`**: Contributor não atribuído no resource group, ou `AZURE_SUBSCRIPTION_ID` de outra
   assinatura. Confira os passos 4 e 9 a 11.
 - **`MissingSubscriptionRegistration` para `Microsoft.Web`**: registre o resource provider na assinatura

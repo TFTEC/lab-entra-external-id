@@ -165,3 +165,36 @@ for executado, o branding se faz pelo portal seguindo `docs/02-branding.md` com 
 - Duas falhas antes do sucesso: `AZURE_CLIENT_ID` apontando para o app do cliente (AADSTS70025) e cota de B1; ambas documentadas em `docs/09`.
 - Run verde: 33706474561. URL: `https://lab-ciam-tftec-dkcwe4bvfqfug5ed.eastus2-01.azurewebsites.net/` (HTTP 200).
 - Pendente no tenant `ciammasters`: redirect URIs `/signin-oidc` e `/signout-callback-oidc` do host acima e front-channel logout `/signout-oidc`; associar o app ao fluxo. Depois da aula: **Desprovisionar ambiente** com `rg-lab-ciam` (B1 e cobrado por hora).
+
+## Atualização durante a aula (2026-09-03, 02:00 a 03:10 UTC)
+
+Estado final ao término desta sessão. Substitui, onde divergir, as tabelas acima.
+
+| Item | Valor |
+|------|-------|
+| Repositório | **Público** desde a aula (feito pelo instrutor); template ativo; CI verde |
+| Identidade do GitHub em uso | `github-lab-entra-external-teste` (appId `36827908-3c4f-461a-be8f-a36db766b7d7`, SP `ab85df31-7ecd-4853-8a11-11cb6d182eaf`), credencial federada `repo:TFTEC@198601153/lab-entra-external-id@1355151308:ref:refs/heads/main`. Secrets `AZURE_CLIENT_ID/TENANT_ID/SUBSCRIPTION_ID` apontam para ela |
+| Papéis dessa identidade | Contributor em `rg-lab-ciam`, `rg-lab-ciam-eastus2` e **na assinatura inteira** (concedido pelo instrutor durante a aula). Recomendação pós-aula: remover o papel na assinatura e manter só o resource group do App Service |
+| Identidade original | `github-lab-entra-external-id` (`a15eb099…`) continua existindo, com Contributor em `rg-lab-externalid` e `rg-lab-ciam`; pode ser removida se a `teste` for a definitiva |
+| Tenant externo da aula | `ciammasters` (`934f117d-b454-4b92-a8bf-831e46922d54`), app registration `LabExternalId-Web` `cd7ba530-70ca-49ca-b668-3a0f735d5e57` (objeto `742e7b3e-ca68-4a25-8b64-4bc4ddc3f804`) |
+| Client secret desse app | Novo segredo `lab-appservice` (90 dias) criado às 03:05 UTC via Graph, porque o anterior era inválido (**AADSTS7000215**). Valor em: GitHub secret `AZUREAD_CLIENT_SECRET`, App Service `AzureAd__ClientSecret`, `appsettings.Local.json` local e `C:\Projetos\lab-entra-external-id.secrets.env` (`CIAMMASTERS_SECRET`) |
+| App Service atual | `lab-ciam-tftec-ciam`, plano `plan-lab-externalid` (B1 Windows), resource group `rg-lab-ciam-eastus`, região **East US**. URL `https://lab-ciam-tftec-ciam-g7bhbdeme9c8hef3.eastus-01.azurewebsites.net/` (HTTP 200) |
+| Variáveis do GitHub | `AZURE_RESOURCE_GROUP=rg-lab-ciam-eastus`, `WEBAPP_NAME=lab-ciam-tftec-ciam`, `AZURE_LOCATION=eastus`, `AZUREAD_AUTHORITY=https://ciammasters.ciamlogin.com/`, `AZUREAD_CLIENT_ID=cd7ba530…` |
+| Recursos antigos | `lab-ciam-tftec` (eastus2) não existe mais; `rg-lab-ciam`, `rg-lab-ciam-eastus2` e `rg-lab-externalid` estão vazios; `rg-lab-externalid-tenant` guarda o vínculo do tenant de teste `labextidtftec` |
+
+### Erros vistos na aula e correções (todos em `docs/09` e `docs/troubleshooting.md`)
+
+1. **AADSTS70025** "has no configured federated identity credentials": `AZURE_CLIENT_ID` apontava para o app do cliente. Corrigido para a identidade do GitHub.
+2. **No subscriptions found**: app registration novo sem papel na assinatura. Corrigido com Contributor no resource group.
+3. **Current Limit (B1 VMs): 0** em Brazil South: sem cota de B1. Corrigido com a variável `AZURE_LOCATION` (workflow ganhou o parâmetro).
+4. **500 em `/signin-oidc`** no App Service: client secret inválido (AADSTS7000215). Corrigido com segredo novo e reinício do app.
+5. **404 na API do GitHub**: repositório privado. Corrigido tornando-o público.
+
+### Pendências pós-aula
+
+- [ ] **Desprovisionar ambiente** (Actions), confirmando `rg-lab-ciam-eastus`: remove o plano B1 e o Web App. Depois, apagar os resource groups vazios (`rg-lab-ciam`, `rg-lab-ciam-eastus2`, `rg-lab-externalid`) se não forem reutilizados.
+- [ ] Remover o Contributor **na assinatura** da identidade `github-lab-entra-external-teste` (deixar só no resource group).
+- [ ] Decidir qual identidade do GitHub fica (`…-id` ou `…-teste`) e apagar a outra em App registrations.
+- [ ] Tenant de teste `labextidtftec` (criado no ensaio de 2026-09-02): apagar em `Manage tenants` se não for usado, e depois o resource group `rg-lab-externalid-tenant`.
+- [ ] No tenant `ciammasters`: política `MFA-LabExternalId` (com Security defaults desligado) e branding, se ainda não feitos em aula.
+- [ ] Rotacionar o segredo `lab-appservice` quando o ambiente for reprovisionado para outra turma.
