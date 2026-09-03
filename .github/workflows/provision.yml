@@ -28,6 +28,10 @@ on:
         description: "Client ID do app registration (vazio = variável AZUREAD_CLIENT_ID ou placeholder)"
         required: false
         default: ""
+      location:
+        description: "Região do App Service (vazio = variável AZURE_LOCATION ou a região do resource group). Ex.: eastus2"
+        required: false
+        default: ""
 
 permissions:
   id-token: write
@@ -61,11 +65,15 @@ jobs:
           app="${{ inputs.web_app_name }}"; app="${app:-${{ vars.WEBAPP_NAME }}}"; app="${app:-lab-externalid-tftec}"
           auth="${{ inputs.authority }}"; auth="${auth:-${{ vars.AZUREAD_AUTHORITY }}}"; auth="${auth:-https://SEU-SUBDOMINIO.ciamlogin.com/}"
           cid="${{ inputs.client_id }}"; cid="${cid:-${{ vars.AZUREAD_CLIENT_ID }}}"; cid="${cid:-SEU-CLIENT-ID}"
+          loc="${{ inputs.location }}"; loc="${loc:-${{ vars.AZURE_LOCATION }}}"
+          # Com região vazia o Bicep usa a região do resource group. Útil quando a cota de B1 é zero na região do grupo.
+          locparam=""; [ -n "$loc" ] && locparam="location=$loc"
           echo "resource_group=$rg" >> "$GITHUB_OUTPUT"
           echo "web_app_name=$app" >> "$GITHUB_OUTPUT"
           echo "authority=$auth" >> "$GITHUB_OUTPUT"
           echo "client_id=$cid" >> "$GITHUB_OUTPUT"
-          echo "Resource group: $rg | Web App: $app | Authority: $auth | ClientId: $cid"
+          echo "locparam=$locparam" >> "$GITHUB_OUTPUT"
+          echo "Resource group: $rg | Web App: $app | Authority: $auth | ClientId: $cid | Região: ${loc:-(do resource group)}"
 
       - name: Login no Azure (OIDC)
         uses: azure/login@v3
@@ -95,6 +103,7 @@ jobs:
                          authority="${{ steps.params.outputs.authority }}" \
                          clientId="${{ steps.params.outputs.client_id }}" \
                          clientSecret="${{ secrets.AZUREAD_CLIENT_SECRET }}" \
+                         ${{ steps.params.outputs.locparam }} \
             --output none
 
       - name: Implantar Bicep
@@ -109,6 +118,7 @@ jobs:
                          authority="${{ steps.params.outputs.authority }}" \
                          clientId="${{ steps.params.outputs.client_id }}" \
                          clientSecret="${{ secrets.AZUREAD_CLIENT_SECRET }}" \
+                         ${{ steps.params.outputs.locparam }} \
             --query properties.outputs --output json)
           host=$(echo "$out" | jq -r '.defaultHostName.value')
           echo "host=$host" >> "$GITHUB_OUTPUT"

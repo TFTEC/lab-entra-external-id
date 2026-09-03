@@ -142,7 +142,10 @@ Feito no **tenant corporativo** onde está a assinatura, não no tenant externo 
   (passo 4) e rode de novo.
 - **`ResourceGroupNotFound`**: o grupo não existe nessa assinatura ou o nome difere do informado.
 - **Nome do Web App em uso**: o nome é global; troque `WEBAPP_NAME`.
-- **Quota de VMs Basic na região**: crie o resource group em outra região (por exemplo `East US 2`) e rode de novo.
+- **`Operation cannot be completed without additional quota ... Current Limit (B1 VMs): 0`**: a assinatura não
+  tem cota de B1 na região do resource group (aconteceu em `Brazil South` numa assinatura de patrocínio). Defina a
+  variável `AZURE_LOCATION` (ex.: `eastus2`) ou preencha o campo **location** ao rodar o workflow; o App Service
+  pode ficar em outra região que o resource group.
 - **Deploy falha por autenticação básica desabilitada**: o `azure/webapps-deploy@v3` publica pela sessão do
   `azure/login`, sem publish profile; confira se o job **Publicar o app** fez login antes do deploy.
 - **App mostra "Configuração pendente"**: `AZUREAD_AUTHORITY` e `AZUREAD_CLIENT_ID` (ou os inputs) vazios.
